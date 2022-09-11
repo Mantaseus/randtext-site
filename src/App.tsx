@@ -1,16 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as randtext from './randtext';
 
+function useHistory() {
+  const [history, setHistory] = useState<string[]>(JSON.parse(localStorage.getItem('history') || '[]'));
+  useEffect(() => localStorage.setItem('history', JSON.stringify(history)), [history])
+  return {
+    value: history,
+    append: (item: string) => setHistory(prev => prev[0] !== item ? [item, ...prev].slice(0, 5) : prev),
+  }
+}
+
 function App() {
+  const history = useHistory();
+
   const [count, setCount] = useState('1');
   const [format, setFormat] = useState('');
-
   const [generatedText, setGeneratedText] = useState<string[] | null>(null);
   const [generationError, setGenerationError] = useState<Error | null>(null);
 
   const generateRandomText = () => {
     setGenerationError(null);
     setGeneratedText(null);
+    history.append(format);
     try {
       const countNum = Number(count);
       if (!countNum) {

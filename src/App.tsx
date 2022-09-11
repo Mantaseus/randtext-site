@@ -36,11 +36,19 @@ function App() {
 
       <div className="mt-8">
         <label className="block text-gray-700 text-sm font-bold">Count</label>
-        <input className="block rounded border p-1 mt-1" type="number" value={count} onChange={e => setCount(e.target.value)}/>
+        <input className="block rounded border p-1 mt-1" type="number"
+          value={count}
+          onChange={e => setCount(e.target.value)}
+          onKeyUp={e => e.key === 'Enter' && generateRandomText()}
+        />
       </div>
       <div className="mt-4">
         <label className="block text-gray-700 text-sm font-bold">Text generation format</label>
-        <input className="block rounded border w-full p-1 mt-1" type="text" value={format} onChange={e => setFormat(e.target.value)}/>
+        <input className="block rounded border w-full p-1 mt-1" type="text"
+          value={format}
+          onChange={e => setFormat(e.target.value)}
+          onKeyUp={e => e.key === 'Enter' && generateRandomText()}
+        />
       </div>
 
       <button className="rounded bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 px-4 py-1" onClick={generateRandomText}>

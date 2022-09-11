@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import * as randtext from './randtext';
 
-function useHistory() {
-  const [history, setHistory] = useState<string[]>(JSON.parse(localStorage.getItem('history') || '[]'));
+function useTerminalLikeHistory() {
+  const [history, setHistory] = useState<string[]>(() => JSON.parse(localStorage.getItem('history') || '[]'));
   useEffect(() => localStorage.setItem('history', JSON.stringify(history)), [history])
   return {
     value: history,
@@ -11,17 +11,26 @@ function useHistory() {
 }
 
 function App() {
-  const history = useHistory();
+  const history = useTerminalLikeHistory();
+  const [historyIndex, setHistoryIndex] = useState<number>(-1);
 
   const [count, setCount] = useState('1');
   const [format, setFormat] = useState('');
   const [generatedText, setGeneratedText] = useState<string[] | null>(null);
   const [generationError, setGenerationError] = useState<Error | null>(null);
 
+  const currentFormat = historyIndex >= 0 ? history.value[historyIndex] : format;
+
   const generateRandomText = () => {
+    if (!currentFormat) {
+      return;
+    }
+
     setGenerationError(null);
     setGeneratedText(null);
-    history.append(format);
+    setHistoryIndex(-1);
+    setFormat('');
+    history.append(currentFormat);
     try {
       const countNum = Number(count);
       if (!countNum) {
@@ -31,14 +40,14 @@ function App() {
         throw new Error(`Invalid count "${count}". Must be > 0`);
       }
 
-      setGeneratedText(Array(countNum).fill(0).map(() => randtext.generate(format)));
+      setGeneratedText(Array(countNum).fill(0).map(() => randtext.generate(currentFormat)));
     } catch (e) {
       setGenerationError(e as Error);
     }
   }
 
   return (<div className="flex flex-row justify-center p-4">
-    <div className="md:w-[50rem] w-full">
+    <div className="md:w-[35rem] w-full">
       <div className="text-3xl font-bold py-4">randtext</div>
       <p>
         Some description I will write in later
@@ -55,9 +64,20 @@ function App() {
       <div className="mt-4">
         <label className="block text-gray-700 text-sm font-bold">Text generation format</label>
         <input className="block rounded border w-full p-1 mt-1" type="text"
-          value={format}
-          onChange={e => setFormat(e.target.value)}
-          onKeyUp={e => e.key === 'Enter' && generateRandomText()}
+          value={currentFormat}
+          onChange={e => {
+            setHistoryIndex(-1);
+            setFormat(e.target.value);
+          }}
+          onKeyUp={e => {
+            if (e.key === 'Enter') {
+              generateRandomText();
+            } else if (e.key === 'ArrowUp') {
+              setHistoryIndex(prev => Math.max(Math.min(prev + 1, history.value.length - 1), -1));
+            } else if (e.key === 'ArrowDown') {
+              setHistoryIndex(prev => Math.max(Math.min(prev - 1, history.value.length - 1), -1));
+            }
+          }}
         />
       </div>
 

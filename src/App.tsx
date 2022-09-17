@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
+import { Code } from './Code';
 import { OperationsReferenceDocs } from './OperationsReferenceDocs';
 import * as randtext from './randtext';
 
-function useTerminalLikeHistory() {
+function useTerminalLikeHistory(size: number = 50) {
   const [history, setHistory] = useState<string[]>(() => JSON.parse(localStorage.getItem('history') || '[]'));
   useEffect(() => localStorage.setItem('history', JSON.stringify(history)), [history])
   return {
     value: history,
-    append: (item: string) => setHistory(prev => prev[0] !== item ? [item, ...prev].slice(0, 5) : prev),
+    append: (item: string) => setHistory(prev => prev[0] !== item ? [item, ...prev].slice(0, size) : prev),
   }
 }
 
@@ -60,6 +61,11 @@ function App() {
       </ul>
       <p className="mt-5">
         It allows for combining multiple generation patterns together as needed.
+      </p>
+
+      <p className="mt-5">
+        Commands can be executed using the <Code>Enter</Code> key. Move back through
+        your history of commands using the <Code>Up</Code> and <Code>Down</Code> keys.
       </p>
 
       <OperationsReferenceDocs/>

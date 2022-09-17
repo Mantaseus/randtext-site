@@ -1,4 +1,5 @@
 import type React from 'react';
+import { Code } from './Code';
 
 export const OperationsReferenceDocs: React.FC = () => {
   return <details className="mt-5">
@@ -12,16 +13,14 @@ export const OperationsReferenceDocs: React.FC = () => {
           <span className="font-bold">Combinable operations</span> - The following can be
           combined together into a single randomized text generation command
           <ul className="list-disc ml-7">
-            <li><code className="border rounded bg-gray-300 px-1">{'{count}'}c</code> - All lowercase ascii alphabets</li>
-            <li><code className="border rounded bg-gray-300 px-1">{'{count}'}C</code> - All uppercase ascii alphabets</li>
-            <li><code className="border rounded bg-gray-300 px-1">{'{count}'}i</code> - All integers from 0-9</li>
+            <li><Code>{'{count}'}c</Code> - All lowercase ascii alphabets</li>
+            <li><Code>{'{count}'}C</Code> - All uppercase ascii alphabets</li>
+            <li><Code>{'{count}'}i</Code> - All integers from 0-9</li>
             <li>
               Arbitrary special characters - Any special character can be used based on your
-              need. The <code className="border rounded bg-gray-300 px-1">,</code>
-              character will need to be escaped like this 
-              <code className="border rounded bg-gray-300 px-1">\,</code>
-              because it is used to delimit multiple operations together . You can even use a
-              space if you want.
+              need. The <Code>,</Code> character will need to be escaped like this 
+              <Code>\,</Code> because it is used to delimit multiple operations together. You
+              can even use a space if you want.
             </li>
           </ul>
         </li>
@@ -29,12 +28,12 @@ export const OperationsReferenceDocs: React.FC = () => {
           <span className="font-bold">Non-combinable operations</span> - The following need to be
           run in separate randomized text generation commands.
           <ul className="list-disc ml-7">
-            <li><code className="border rounded bg-gray-300 px-1">{'{wordSize}'}pc</code> - Generate lowercase pronouncable text</li>
-            <li><code className="border rounded bg-gray-300 px-1">{'{wordSize}'}pC</code> - Generate uppercase pronouncable text</li>
-            <li><code className="border rounded bg-gray-300 px-1">{'{wordSize}'}pcC</code> - Generate pronouncable text with each character having a random case</li>
-            <li><code className="border rounded bg-gray-300 px-1">{'{wordSize}'}dc</code> - Generate lowercase dictionary text</li>
-            <li><code className="border rounded bg-gray-300 px-1">{'{wordSize}'}dC</code> - Generate uppercase dictionary text</li>
-            <li><code className="border rounded bg-gray-300 px-1">{'{wordSize}'}dcC</code> - Generate dictionary text with each character having a random case</li>
+            <li><Code>{'{wordSize}'}pc</Code> - Generate lowercase pronouncable text</li>
+            <li><Code>{'{wordSize}'}pC</Code> - Generate uppercase pronouncable text</li>
+            <li><Code>{'{wordSize}'}pcC</Code> - Generate pronouncable text with each character having a random case</li>
+            <li><Code>{'{wordSize}'}dc</Code> - Generate lowercase dictionary text</li>
+            <li><Code>{'{wordSize}'}dC</Code> - Generate uppercase dictionary text</li>
+            <li><Code>{'{wordSize}'}dcC</Code> - Generate dictionary text with each character having a random case</li>
           </ul>
         </li>
       </ul>

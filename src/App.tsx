@@ -48,7 +48,7 @@ function App() {
     }
   }
 
-  return (<div className="flex flex-row justify-center p-4">
+  return (<div className="flex flex-row justify-center p-4 pb-20">
     <div className="md:w-[50rem] w-full">
       <div className="text-3xl font-bold py-4">randtext</div>
       <p>
@@ -79,7 +79,7 @@ function App() {
         />
       </div>
       <div className="mt-4">
-        <label className="block text-gray-700 text-sm font-bold">Text generation format</label>
+        <label className="block text-gray-700 text-sm font-bold">Text generation command</label>
         <input className="block rounded border w-full p-1 mt-1" type="text"
           value={currentFormat}
           onChange={e => {

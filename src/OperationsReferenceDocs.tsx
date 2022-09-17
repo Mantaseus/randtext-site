@@ -6,8 +6,15 @@ export const OperationsReferenceDocs: React.FC = () => {
     <summary className="font-bold cursor-pointer">Operations reference docs</summary>
     <div className="ml-5">
       <p className="mt-5 mb-4">
-        The following patterns can be used
+        An operation is a part of the text generation command that defines things like the
+        type of text generation algorithm to use, the size of the generated string, the
+        characters used in the generation process, etc. Multiple operations can be defined
+        in a single text generation command delimited using a <Code>,</Code>
       </p>
+      <p className="mt-5 mb-4">
+        The following types of operations can be used
+      </p>
+
       <ul className="list-disc ml-5">
         <li>
           <span className="font-bold">Combinable operations</span> - The following can be

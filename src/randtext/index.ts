@@ -63,9 +63,9 @@ export const combinableGenerators: Record<string, () => string> = {
   i: () => String(randomInt()),
 }
 
-export function generate(format: string) {
-  return format.split(RegExp(`(?<!\\\\)${PIECE_DELIMITER}`))
-    .map(piece => piece.replace(RegExp(`\\${PIECE_DELIMITER}`), PIECE_DELIMITER))
+export function generate(command: string) {
+  return command.split(RegExp(`(?<!\\\\)${PIECE_DELIMITER}`))
+    .map(piece => piece.replace(RegExp(`\\\\${PIECE_DELIMITER}`), PIECE_DELIMITER))
     .map(piece => {
       if (piece.startsWith(CMD_DELIMITER)) {
         const [_ignore, rawCmdStr, ...rest] = piece.split(CMD_DELIMITER);

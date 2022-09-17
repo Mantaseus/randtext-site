@@ -18,11 +18,11 @@ function App() {
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
 
   const [count, setCount] = useState('1');
-  const [format, setFormat] = useState('');
+  const [command, setCommand] = useState('');
   const [generatedText, setGeneratedText] = useState<string[] | null>(null);
   const [generationError, setGenerationError] = useState<Error | null>(null);
 
-  const currentCommand = historyIndex >= 0 ? history.value[historyIndex] : format;
+  const currentCommand = historyIndex >= 0 ? history.value[historyIndex] : command;
   const currentCommandToExecute = currentCommand || history.value[0] || '';
 
   const generateRandomText = (command: string) => {
@@ -33,7 +33,7 @@ function App() {
     setGenerationError(null);
     setGeneratedText(null);
     setHistoryIndex(-1);
-    setFormat('');
+    setCommand('');
     history.append(command);
     try {
       const countNum = Number(count);
@@ -89,7 +89,7 @@ function App() {
           value={currentCommand}
           onChange={e => {
             setHistoryIndex(-1);
-            setFormat(e.target.value);
+            setCommand(e.target.value);
           }}
           onKeyUp={e => {
             if (e.key === 'Enter') {

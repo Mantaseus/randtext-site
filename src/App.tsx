@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { OperationsReferenceDocs } from './OperationsReferenceDocs';
 import * as randtext from './randtext';
 
 function useTerminalLikeHistory() {
@@ -47,11 +48,21 @@ function App() {
   }
 
   return (<div className="flex flex-row justify-center p-4">
-    <div className="md:w-[35rem] w-full">
+    <div className="md:w-[50rem] w-full">
       <div className="text-3xl font-bold py-4">randtext</div>
       <p>
-        Some description I will write in later
+        A simple little tool to generate randomized text. It allows for generating
       </p>
+      <ul className="list-disc ml-5">
+        <li>Meaningless mishmash of characters</li>
+        <li>Pronouncable mishmash of characters</li>
+        <li>Random dictionary words</li>
+      </ul>
+      <p className="mt-5">
+        It allows for combining multiple generation patterns together as needed.
+      </p>
+
+      <OperationsReferenceDocs/>
 
       <div className="mt-8">
         <label className="block text-gray-700 text-sm font-bold">Count</label>

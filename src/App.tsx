@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Code } from './Code';
+import { Examples } from './Examples';
 import { OperationsReferenceDocs } from './OperationsReferenceDocs';
 import * as randtext from './randtext';
 
@@ -21,10 +22,10 @@ function App() {
   const [generatedText, setGeneratedText] = useState<string[] | null>(null);
   const [generationError, setGenerationError] = useState<Error | null>(null);
 
-  const currentFormat = historyIndex >= 0 ? history.value[historyIndex] : format;
+  const currentCommand = historyIndex >= 0 ? history.value[historyIndex] : format;
 
-  const generateRandomText = () => {
-    if (!currentFormat) {
+  const generateRandomText = (command: string) => {
+    if (!command) {
       return;
     }
 
@@ -32,7 +33,7 @@ function App() {
     setGeneratedText(null);
     setHistoryIndex(-1);
     setFormat('');
-    history.append(currentFormat);
+    history.append(command);
     try {
       const countNum = Number(count);
       if (!countNum) {
@@ -42,7 +43,7 @@ function App() {
         throw new Error(`Invalid count "${count}". Must be > 0`);
       }
 
-      setGeneratedText(Array(countNum).fill(0).map(() => randtext.generate(currentFormat)));
+      setGeneratedText(Array(countNum).fill(0).map(() => randtext.generate(command)));
     } catch (e) {
       setGenerationError(e as Error);
     }
@@ -69,26 +70,29 @@ function App() {
       </p>
 
       <OperationsReferenceDocs/>
+      <Examples onTryCommand={command => { generateRandomText(command); }}/>
 
-      <div className="mt-8">
-        <label className="block text-gray-700 text-sm font-bold">Count</label>
+      <hr className="my-8"/>
+
+      <div>
+        <label className="block text-gray-700 text-sm font-bold"># of results to generate</label>
         <input className="block rounded border p-1 mt-1" type="number"
           value={count}
           onChange={e => setCount(e.target.value)}
-          onKeyUp={e => e.key === 'Enter' && generateRandomText()}
+          onKeyUp={e => e.key === 'Enter' && generateRandomText(currentCommand)}
         />
       </div>
       <div className="mt-4">
         <label className="block text-gray-700 text-sm font-bold">Text generation command</label>
         <input className="block rounded border w-full p-1 mt-1" type="text"
-          value={currentFormat}
+          value={currentCommand}
           onChange={e => {
             setHistoryIndex(-1);
             setFormat(e.target.value);
           }}
           onKeyUp={e => {
             if (e.key === 'Enter') {
-              generateRandomText();
+              generateRandomText(currentCommand);
             } else if (e.key === 'ArrowUp') {
               setHistoryIndex(prev => Math.max(Math.min(prev + 1, history.value.length - 1), -1));
             } else if (e.key === 'ArrowDown') {
@@ -98,12 +102,12 @@ function App() {
         />
       </div>
 
-      <button className="rounded bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 px-4 py-1" onClick={generateRandomText}>
+      <button className="rounded bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 px-4 py-1" onClick={() => generateRandomText(currentCommand)}>
         Generate
       </button>
 
       {generatedText && <>
-        <div className="mt-8 text-sm text-gray-700 font-bold">Generated text</div>
+        <div className="mt-8 text-sm text-gray-700 font-bold">Generated text for <Code>{history.value[0]}</Code></div>
         <pre className='rounded bg-gray-100 border border-gray-400 px-4 py-2 mt-1'>
           {generatedText.join('\n')}
         </pre>

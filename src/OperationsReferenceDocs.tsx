@@ -8,8 +8,11 @@ export const OperationsReferenceDocs: React.FC = () => {
       <p className="mt-5 mb-4">
         An operation is a part of the text generation command that defines things like the
         type of text generation algorithm to use, the size of the generated string, the
-        characters used in the generation process, etc. Multiple operations can be defined
-        in a single text generation command delimited using a <Code>,</Code>
+        characters used in the generation process, etc. It must start with a <Code>-</Code>
+        character. If it does not start with a <Code>-</Code> then no randomization
+        calculation will be done for that operation and it will be added to the output as is.
+        Multiple operations can be defined in a single text generation command delimited using
+        a <Code>,</Code>.
       </p>
       <p className="mt-5 mb-4">
         The following types of operations can be used

@@ -23,6 +23,7 @@ function App() {
   const [generationError, setGenerationError] = useState<Error | null>(null);
 
   const currentCommand = historyIndex >= 0 ? history.value[historyIndex] : format;
+  const currentCommandToExecute = currentCommand || history.value[0] || '';
 
   const generateRandomText = (command: string) => {
     if (!command) {
@@ -79,12 +80,12 @@ function App() {
         <input className="block rounded border p-1 mt-1" type="number"
           value={count}
           onChange={e => setCount(e.target.value)}
-          onKeyUp={e => e.key === 'Enter' && generateRandomText(currentCommand)}
+          onKeyUp={e => e.key === 'Enter' && generateRandomText(currentCommandToExecute)}
         />
       </div>
       <div className="mt-4">
         <label className="block text-gray-700 text-sm font-bold">Text generation command</label>
-        <input className="block rounded border w-full p-1 mt-1" type="text"
+        <input className="block rounded border w-full p-1 mt-1" type="text" placeholder={history.value[0]}
           value={currentCommand}
           onChange={e => {
             setHistoryIndex(-1);
@@ -92,7 +93,7 @@ function App() {
           }}
           onKeyUp={e => {
             if (e.key === 'Enter') {
-              generateRandomText(currentCommand);
+              generateRandomText(currentCommandToExecute);
             } else if (e.key === 'ArrowUp') {
               setHistoryIndex(prev => Math.max(Math.min(prev + 1, history.value.length - 1), -1));
             } else if (e.key === 'ArrowDown') {
@@ -102,7 +103,10 @@ function App() {
         />
       </div>
 
-      <button className="rounded bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 px-4 py-1" onClick={() => generateRandomText(currentCommand)}>
+      <button
+        className="rounded bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 px-4 py-1"
+        onClick={() => generateRandomText(currentCommandToExecute)}
+      >
         Generate
       </button>
 

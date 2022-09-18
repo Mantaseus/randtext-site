@@ -49,7 +49,7 @@ export const Examples: React.FC<Props> = ({ onTryCommand }) => {
     <summary className="font-bold cursor-pointer">Examples</summary>
     <div className="ml-5">
       <ul className="list-disc ml-5">
-        {commands.map(({ command, description }) => <li>
+        {commands.map(({ command, description }) => <li key={command}>
           <div className="flex items-stretch gap-2">
             <code className="border border-gray-400 rounded px-4 bg-gray-200">{command}</code>
             <button className="rounded bg-blue-500 hover:bg-blue-700 text-white font-bold px-4" onClick={() => onTryCommand?.(command)}>
